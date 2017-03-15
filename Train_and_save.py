@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 lables=[]
 images = []
-pics_paath="/home/pramod/PycharmProjects/image_proc/pics/"
+pics_paath="/home/pramod/PycharmProjects/MinorProject/pics/"
 for i in os.listdir(pics_paath):
     if i.endswith('.png'):
         nmbr=int(i.split(".")[0])

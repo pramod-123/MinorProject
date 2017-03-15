@@ -1,7 +1,7 @@
 import os
 import cv2
 import time
-faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
 
 video_capture = cv2.VideoCapture(0)
 i=0
@@ -13,7 +13,7 @@ while True:
 
     faces = faceCascade.detectMultiScale(
         gray,
-        scaleFactor=1.1,
+        scaleFactor=1.2,
         minNeighbors=5,
         minSize=(30, 30),
         flags=cv2.cv.CV_HAAR_SCALE_IMAGE

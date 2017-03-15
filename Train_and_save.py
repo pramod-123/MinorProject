@@ -19,7 +19,7 @@ for i in os.listdir(pics_paath):
         break
 model=cv2.createEigenFaceRecognizer()
 print "training"
-model.train(np.array(images,'uint8'),np.array(lables))
+model.train(np.array(images),np.array(lables))
 model.save("m.xml")
 print "complete"
 

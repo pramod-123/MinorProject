@@ -2,19 +2,21 @@ import os
 import numpy as np
 import cv2
 lables=[]
+prediction={}
 images = []
 pics_paath="/home/pramod/PycharmProjects/MinorProject/pics/"
 for i in os.listdir(pics_paath):
-    if i.endswith('.png'):
+    if not os.path.isdir(i):
+
         nmbr=int(i.split(".")[0])
-        print nmbr
-        pic=cv2.imread(pics_paath+i)
-        images.append(pic)
-        if nmbr>=77:
-            lables.append(2)
-        else:
-            lables.append(1)
-        cv2.imshow("pic",pic)
+        prediction[nmbr]=i.split(".")[1]
+        print nmbr,i.split(".")[1]
+        for j in os.listdir(pics_paath+i+"/"):
+            if j.endswith('.png'):
+                pic = cv2.imread(pics_paath + i+"/"+j)
+                images.append(pic)
+                lables.append(nmbr)
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 model=cv2.createEigenFaceRecognizer()
@@ -51,10 +53,8 @@ while True:
         crop_gray = gray[y:y + h, x:x + w]
         resized_image = cv2.resize(crop_gray, (169, 169))
         lbl,conf=model.predict(resized_image)
-    if lbl==2:
-        print "shubham"
-    elif lbl==1:
-        print "Pramod"
+    if lbl!=-1:
+        print prediction[lbl]
     else:
         print "Unknown"
     # Display the resulting frame

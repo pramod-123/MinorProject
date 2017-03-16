@@ -24,7 +24,7 @@ def take_pics(name):
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-        faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5,minSize=(30, 30),flags=cv2.cv.CV_HAAR_SCALE_IMAGE)
+        faces = faceCascade.detectMultiScale(gray,scaleFactor=1.2,minNeighbors=5)
 
     # Draw a rectangle around the faces
         for (x, y, w, h) in faces:
@@ -32,7 +32,7 @@ def take_pics(name):
             crop_gray=gray[y:y+h,x:x+w]
             cv2.imshow('Video', crop_gray)
             resized_image=cv2.resize(crop_gray,(169,169))
-            cv2.imwrite(new_file_path+str(i)+".png",resized_image)
+            cv2.imwrite(new_file_path+str(i)+".jpg",resized_image)
             print i
             i+=1
         if i>100:

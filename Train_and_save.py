@@ -6,6 +6,7 @@ prediction={}
 prediction[-1]="unknown"
 images = []
 model=cv2.createLBPHFaceRecognizer()
+model.load("m.yml")
 pics_paath="/home/pramod/PycharmProjects/MinorProject/pics/"
 for i in os.listdir(pics_paath):
     if not os.path.isdir(i):
@@ -23,7 +24,7 @@ for i in os.listdir(pics_paath):
 
 print "training"
 model.train(np.array(images),np.array(lables))
-model.save("m.xml")
+model.save("m.yml")
 print "complete"
 
 

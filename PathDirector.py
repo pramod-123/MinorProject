@@ -1,41 +1,23 @@
-import os
-import numpy as np
 import cv2
-lables=[]
-prediction={}
-prediction[-1]="unknown"
-images = []
-model=cv2.createLBPHFaceRecognizer()
-model.load("m.yml")
-pics_paath="/home/pramod/PycharmProjects/MinorProject/pics/"
-prediction[7]="sanket"
-
-for i in os.listdir(pics_paath):
-    if not os.path.isdir(i):
-
-        nmbr=int(i.split(".")[0])
-        prediction[nmbr]=i.split(".")[1]
-        for j in os.listdir(pics_paath+i+"/"):
-            if True:
-                pic = cv2.imread(pics_paath + i+"/"+j,cv2.IMREAD_GRAYSCALE)
-                images.append(pic)
-                lables.append(nmbr)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-print "training"
-model.train(np.array(images),np.array(lables))
-model.save("m.yml")
-print "complete"
-
-
-
-faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
+faceCascade = cv2.CascadeClassifier('/home/pramod/PycharmProjects/MinorProject/haarcascades/haarcascade_frontalface_alt.xml')
+fullbody=cv2.CascadeClassifier("/home/pramod/PycharmProjects/MinorProject/haarcascades/haarcascade_fullbody.xml")
 video_capture = cv2.VideoCapture(0)
-i=0
-cv2.destroyAllWindows()
+
+
+
+def find_the_grid(width_of_one_grid,x,y,w,h):
+    left=int(x/width_of_one_grid)
+    right=int((x+w)/width_of_one_grid)
+    if right-left==2:
+        return left+2
+    if (right*width_of_one_grid)-x > (x+w)-(right*width_of_one_grid):
+        return left+1
+    else:
+        return right+1
+
+
+    return
+devide_in=5
 while True:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
@@ -57,8 +39,7 @@ while True:
         crop_gray = gray[y:y + h, x:x + w]
         resized_image = cv2.resize(crop_gray, (169, 169))
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        lbl, conf = model.predict(resized_image)
-        cv2.putText(frame,prediction[lbl],(x,y),cv2.FONT_HERSHEY_COMPLEX,1,(0,255,0),2)
+        cv2.putText(frame, str(find_the_grid(int(frame_width/devide_in),x,y,w,h)), (x, y), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
         cv2.line(frame, (frame_width / 5,0), (frame_width/5,frame_height ), (0, 255, 0), thickness=3, lineType=8,
                  shift=0)
         cv2.line(frame, (2*frame_width / 5, 0), (2*frame_width / 5, frame_height), (0, 255, 0), thickness=3, lineType=8,
@@ -71,7 +52,3 @@ while True:
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
-# When everything is done, release the capture
-video_capture.release()
-cv2.destroyAllWindows()

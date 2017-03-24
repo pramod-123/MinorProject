@@ -1,11 +1,7 @@
 import os
 import cv2
-import time
-import Tkinter
-import tkMessageBox
-
-
-faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_alt.xml')
+faceCascade = cv2.CascadeClassifier('/home/pramod/PycharmProjects/MinorProject/haarcascades/haarcascade_frontalface_alt.xml')
+fullbody=cv2.CascadeClassifier("/home/pramod/PycharmProjects/MinorProject/haarcascades/haarcascade_fullbody.xml")
 file_path="/home/pramod/PycharmProjects/MinorProject/pics/"
 video_capture = cv2.VideoCapture(0)
 i=0
@@ -51,7 +47,7 @@ if __name__ == '__main__':
     while True:
         name=raw_input("Enter the input ")
         take_pics(name)
-        choise=raw_input("Want to add more people")
+        choise=raw_input("Want to add more people(y/n)")
         if choise!="y":
             break
 video_capture.release()
